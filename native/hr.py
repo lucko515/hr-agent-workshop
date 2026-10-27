@@ -27,7 +27,7 @@ def load():
     db = seed(date(2026, 10, 19))
     pending = None
     if STATE.exists():
-        raw = json.loads(STATE.read_text())
+        raw = json.loads(STATE.read_text(encoding="utf-8"))
         db.requests = [LeaveRequest(**{**r, 'start': date.fromisoformat(r['start']),
                                       'end': date.fromisoformat(r['end'])}) for r in raw['requests']]
         db.cases = [HrCase(**c) for c in raw['cases']]

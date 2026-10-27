@@ -17,7 +17,8 @@ if route in ('codex', 'claude'):
 if route in ('app', 'verify', 'tests'):
     if not PY.exists():
         raise SystemExit('Prepare dependencies first: python3 install.py')
-    load_config(sys.argv[2] if len(sys.argv) > 2 else None)
+    if route != 'tests':
+        load_config(sys.argv[2] if len(sys.argv) > 2 else None)
     if route == 'tests':
         args = ['-m', 'pytest']
     elif route == 'verify':
@@ -27,5 +28,5 @@ if route in ('app', 'verify', 'tests'):
             raise SystemExit('Select credentials/model first: python3 configure.py')
         print('Model:', os.getenv('HR_AGENT_MODEL'), '| engine:', os.getenv('HR_AGENT_ENGINE'), flush=True)
         args = ['-m', 'hr_agent.cli']
-    raise SystemExit(subprocess.call([str(PY), *args], cwd=ROOT / 'agent'))
+    raise SystemExit(subprocess.call([str(PY), *args], cwd=ROOT / 'agent', env={**os.environ, 'PYTHONUTF8': '1'}))
 print('Run from this folder:\n  python3 launch.py codex   # ChatGPT subscription\n  python3 launch.py claude  # Claude Code subscription\n  python3 configure.py     # API key or local endpoint setup\n  python3 launch.py app     # Real HR application\n  python3 launch.py verify  # Real-model acceptance checks\n  python3 launch.py tests   # Offline tests')

@@ -1,104 +1,173 @@
-# Participant setup
+# Setup — start here
 
-Run commands from the repository root. Use Python 3.10 or newer. On Windows replace `python3` with `py`; the launchers select the correct virtual-environment executable automatically.
+**Use a terminal, keep the whole repository together, and choose ONE model route. No virtual-environment activation is needed.** You do not need Claude, Codex, OpenAI and Ollama all at once.
 
-## Install once
+## 1. Download and open the correct folder
 
-```bash
-python3 install.py
+Use **Code → Download ZIP**, then **extract** it. Open the extracted folder in VS Code and choose **Terminal → New Terminal**. The terminal folder must contain `install.py`, `launch.py`, `configure.py`, and `agent/`. Do not run from inside the ZIP, `agent/`, or `live_build/agent/`.
+
+If you use Git instead:
+
+```text
+git clone https://github.com/lucko515/hr-agent-workshop.git
+cd hr-agent-workshop
 ```
 
-Select **3** for both provider clients and all workshop tests. Select **1** for OpenAI-compatible/local only or **2** for Claude only. Installation needs internet access; download local models before class. No shell activation is required for the root launchers.
+If you already worked on an earlier download, keep that folder. Download the corrected version into a **separate folder** and transfer your exercise changes deliberately; do not overwrite your work or paste private profiles into GitHub.
 
-## Choose one model route
+## 2. Pick the Python command for YOUR computer
 
-### Claude API
+Python **3.10+** is required. Python **3.12** is a straightforward choice. Use a 64-bit installation. Install from [python.org](https://www.python.org/downloads/) or your organization's approved software source, then restart the terminal.
 
-```bash
-python3 configure.py claude
-python3 launch.py app claude
+| System | First try | If that command is missing or older than 3.10 |
+| --- | --- | --- |
+| Windows PowerShell | `py -3.12 --version` | Install Python 3.12 with the Python launcher, reopen PowerShell. If using another supported version, use `py -3 --version`. |
+| macOS | `python3 --version` | Apple's Python can be 3.9. Install a newer Python, then try `python3.12 --version`. |
+| Linux | `python3 --version` | Install Python 3.10+ and its matching `venv` package using your approved package manager. |
+
+**Below, `python` means the command that passed this check.** Replace it everywhere with `py -3.12`, `python3.12`, or `python3` as appropriate. This is a command placeholder, not an instruction to change your system Python.
+
+For example, on Windows run `py -3.12 install.py --engine local`; on macOS/Linux run `python3 install.py --engine local` if `python3` is new enough.
+
+## 3. Install and check — no keys yet
+
+Choose one installation command:
+
+| What you will use | Command |
+| --- | --- |
+| Local Ollama, OpenAI, or a compatible company API | `python install.py --engine local` |
+| Claude API | `python install.py --engine claude` |
+| All routes / complete offline test coverage | `python install.py` |
+
+The installer creates `.venv` inside this repository and installs dependencies there. It is safe to rerun to add another provider. It never modifies your exercise code or model profiles. Internet access to your approved Python package index is required.
+
+```text
+python doctor.py
+python launch.py tests
 ```
 
-The setup asks for your Anthropic API key at a hidden prompt and the exact model ID enabled on your account. It saves `.env.claude` locally. No OpenAI key is needed. The full application uses Claude Agent SDK; the smaller greenfield example uses the Anthropic Messages API directly.
+`doctor.py` must say **PASS**. It makes no paid API calls and prints no keys. With all dependencies, the completed full agent has **31 passing offline tests**. With a limited install, the Claude-specific tests may skip; that is expected. Do not run plain `pytest` from the repository root: it would mix completed projects with deliberately failing starters.
 
-### OpenAI or an approved compatible endpoint
+## 4A. Local Ollama — no API key
 
-```bash
-python3 configure.py api
-python3 launch.py app api
-```
+1. Install [Ollama](https://ollama.com/download) using the approved installer. Reopen your terminal afterward.
+2. **Start the server first:** open the Ollama app, or run `python local_server.py` in a separate terminal and leave it running.
+3. In the workshop terminal, download and confirm the model:
 
-Enter your base URL, API key at the hidden prompt, and model ID. For OpenAI the default URL is `https://api.openai.com/v1` and the offered default model is `gpt-4.1-mini`; choose a model enabled on your account. A company endpoint must support Chat Completions function tools, not just chat text. The configuration is stored in `.env.api`.
-
-### Local Ollama
-
-Install Ollama from its official distribution. In a terminal:
-
-```bash
+```text
 ollama pull qwen3:4b
-python3 local_server.py
+ollama list
+python configure.py local
 ```
 
-Leave the server terminal open if it starts a server. In another terminal at this repository root:
+Press Enter at the model prompt to use `qwen3:4b`, or enter the exact installed tool-capable model name from `ollama list`.
 
-```bash
-python3 configure.py local
-python3 launch.py app local
+```text
+python doctor.py local
+python launch.py app local
 ```
 
-Use `qwen3:4b` or enter another installed tool-capable model. The profile uses `http://127.0.0.1:11434/v1/` and a non-secret placeholder key. Model downloads and suitable memory are required. Smaller models can be inconsistent about tools and final answers; inspect what actually happened.
+Type: **How many annual leave days do full-time employees get? Cite the policy.**
 
-For LM Studio or another compatible local server, use `python3 configure.py api`, enter its local base URL and loaded model ID, then use the `api` commands. Enter the server's required key, or a non-secret placeholder if authentication is disabled. The label `api` can point to a local endpoint.
+The model runs locally. The initial package/model downloads need internet access and disk space. A smaller model may choose tools incorrectly or write unsupported claims; inspect the tool trace and actual state. If your computer cannot run this model, use an approved API route or pair with someone who can execute it.
 
-### Claude Code or Codex subscription access
+## 4B. Claude API
 
-With the chosen CLI already installed and signed in:
-
-```bash
-python3 launch.py claude
+```text
+python configure.py claude
 ```
 
-or:
+Enter your **Anthropic API key** at the hidden prompt, then an exact Claude model ID enabled on your account. Nothing appears while typing the key; that is expected. Use Terminal/PowerShell, not VS Code's Output or Debug Console.
 
-```bash
-python3 launch.py codex
+```text
+python doctor.py claude
+python launch.py app claude
 ```
 
-These launch the native HR role in `native/`. They do not configure the Python application's API route. A coding assistant can also build the exercises; open it in the appropriate **development** folder, not `native/`.
+A Claude Code subscription does not by itself configure this API profile. The full application uses Claude Agent SDK, including its bundled Claude runtime. On Windows, [Git for Windows](https://git-scm.com/downloads/win) / Git Bash is recommended for Bash tools; restart the terminal after installation. See the [official platform setup notes](https://code.claude.com/docs/en/setup). Package availability can also depend on OS/CPU and the approved package mirror.
 
-To inspect/reset fictional native records, use a separate terminal:
+## 4C. OpenAI or a compatible company API
 
-```bash
-cd native
-python3 hr.py state
-python3 hr.py reset
+```text
+python configure.py api
 ```
 
-Reset only when you want to discard your local demo records. For leave requests, read the queued card and run the displayed approval/decline command yourself; the assistant must not approve on your behalf.
+Enter the base URL, API key at the hidden prompt, and model ID. For OpenAI you can accept the displayed URL/model defaults if that model is enabled on your account. For company models, use the values supplied by your administrator. The endpoint must support **Chat Completions function tools**; a chat-only interface is insufficient.
 
-## Keys and profiles
-
-Use the configuration script, not a chat prompt, to enter keys. `.env.claude`, `.env.api`, and `.env.local` are excluded from Git. They contain JSON-quoted values loaded by the helpers; do not `source` them as shell scripts. `.env.example` contains placeholders only.
-
-Use explicit profile names when launching: `claude`, `api`, or `local`. The loader clears the previous provider settings when switching profiles. Existing subscriptions and API billing are separate; use your organization's approved access.
-
-## Verify your setup
-
-```bash
-python3 launch.py tests
-python3 live_build.py test
-python3 greenfield.py test local rehearsal
+```text
+python doctor.py api
+python launch.py app api
 ```
 
-With all dependencies installed, expect 31, 22 and 17 passing offline tests respectively. The unimplemented `greenfield/live` has intentional failures until you build it. Tests marked `live` are excluded from the default full-agent suite.
+`doctor` validates local setup; it does not prove your key, account credit, endpoint or model works. The first model request verifies those. Do not put a key in a URL, chat prompt, screenshot, or issue.
 
-Optional real-model checks (cloud requests use API credit):
+For LM Studio, start its local server with a tool-capable model and configure the `api` profile with its local URL and exact loaded model name. Use a non-secret placeholder key only if the local server does not require authentication.
 
-```bash
-python3 launch.py verify claude
-python3 greenfield.py verify claude rehearsal
+## 4D. Subscription-only Claude Code or Codex
+
+With the chosen coding CLI already installed and signed in, run **one** of:
+
+```text
+python launch.py claude
+python launch.py codex
 ```
 
-Replace `claude` with `api` or `local`. These checks automatically approve or refuse **fictional** test actions according to each case. Read generated reports in `evidence/` and the final answers; a passing assertion is not a guarantee of reliable prose. Do not share reports containing private prompts or paths.
+This opens the native HR role in `native/`. It does not use the Python application's API profile. A VS Code extension alone does not necessarily install the CLI command used by this launcher. If you have only the extension, open the `native/` folder directly in VS Code and use the extension there. For development, open the exercise workspace instead.
 
-Return to [README.md](README.md) for the workshop sequence. If a client reports authentication or model errors, check your selected profile, approved endpoint, and enabled model ID. If the live exercise seems unchanged, check that the launcher prints `live_build/agent` as its code path.
+The native assistant queues leave requests. Read the confirmation card and run the displayed approve/decline command yourself in a separate terminal. The assistant must not approve on your behalf.
+
+## 5. Run your exercise, not the finished reference
+
+All commands below run from the repository root. Replace `local` with `claude` or `api` for your configured route.
+
+```text
+python live_build.py test
+python live_build.py run local
+```
+
+The untouched brownfield starter has **22 passing tests** with all dependencies installed. `tests/test_onboarding_workshop.py` is created by your assistant during B1; it is not missing from the download.
+
+For the small greenfield project:
+
+```text
+python greenfield.py test
+python greenfield.py run local
+```
+
+The untouched greenfield starter has **17 intentional failures** and no `main.py` until you build it. To run the already completed small example instead:
+
+```text
+python greenfield.py test local rehearsal
+python greenfield.py run local rehearsal
+```
+
+Read [README.md](README.md) for the build prompts and [exercise/EXERCISE.md](exercise/EXERCISE.md) for the deliverable.
+
+## Troubleshooting
+
+| Symptom | What to do |
+| --- | --- |
+| `python` / `python3` / `py` not found, or Python 3.9 | Follow step 2 and use the same working command for every helper. |
+| `can't open file install.py` | You are in the wrong folder or have not extracted the ZIP. Open the folder containing `install.py`. |
+| `No module named venv` / `ensurepip` | On Debian/Ubuntu install the matching `python3-venv` package; otherwise repair your Python installation. |
+| `.venv` cannot start / `dyld` / wrong Python version | Close running agents. Rename `.venv` to `.venv-old`, then run the installer with a supported Python. Keep your code and `.env.*` profiles. |
+| PowerShell refuses `Activate.ps1` | Do not activate. The root launchers use `.venv` directly; no execution-policy change is needed. |
+| No matching dependency / certificate / proxy error | Check the organization's package mirror and proxy with IT. Do not disable certificate checks. Local/API-only installation avoids the large Claude SDK download. |
+| `ModuleNotFoundError` for a provider | Rerun `install.py` with the needed `--engine` value, then `doctor.py PROFILE`. Use the root launchers, not a different environment's Python. |
+| `ollama` not found | Install Ollama and reopen the terminal; confirm it is on PATH. |
+| Cannot connect to Ollama | Start the Ollama app or `local_server.py` first; keep the server running. |
+| Local model not found | Run `ollama list`, pull the intended model, then configure that exact name. |
+| Profile missing / malformed / wrong provider | Rerun `configure.py local`, `api`, or `claude`; use the same profile name in the launch command. |
+| `AuthenticationError` / HTTP 401 | Re-enter the correct provider key privately; subscription login is separate. |
+| HTTP 403 / 404 | Confirm endpoint, permissions and exact model ID with your provider/admin. |
+| `RateLimitError` / HTTP 429 | Check account quota, API credit or concurrent requests with your provider/admin. |
+| `APIConnectionError` / timeout | Check the approved endpoint/network; for local models check the server and available memory. |
+| Greenfield missing `main.py` / failing tests | This is the unimplemented exercise. Follow G1/G2, or append `local rehearsal` to run the completed example. |
+
+Still stuck? Share your OS, Python version, command, and **error type/text with keys removed**. `doctor.py PROFILE` output is designed to be shareable; raw provider errors, profiles and pip logs may contain private details.
+
+## Credentials and verification
+
+Keys stay in ignored local `.env.api` / `.env.claude` files. `.env.local` uses a non-secret placeholder. Do not `source` these files or upload them. Never run `git add -f` on credential files. `.env.example` is a template only.
+
+Offline tests do not call models. Optional `launch.py verify PROFILE` checks use actual inference, including API credit for cloud models, and predetermined approvals for fictional HR actions. Reports remain ignored in `evidence/`. See [VERIFICATION.md](VERIFICATION.md) for tested scope and limitations.

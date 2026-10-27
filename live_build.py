@@ -17,7 +17,7 @@ if action == 'prepare':
         raise SystemExit('live_build already exists. Preserved it. For a fresh rehearsal, rename that folder first, then prepare again.')
     shutil.copytree(ROOT / 'exercise/starter', APP,
                     ignore=shutil.ignore_patterns('.venv', '__pycache__', '.pytest_cache', '*.egg-info'))
-    prompt = (ROOT / 'prompts/brownfield/B1_RED.txt').read_text()
+    prompt = (ROOT / 'prompts/brownfield/B1_RED.txt').read_text(encoding="utf-8")
     prompt += '\nThis is the LIVE workshop copy. Work only in this folder. Run tests with ../../.venv/bin/python -m pytest, not a different installed application. First explain your plan briefly, then implement the requested change and run the checks. Do not copy the completed reference implementation.\n'
     (WORK / 'PASTE_INTO_CLAUDE.txt').write_text(prompt)
     print('Fresh starter prepared at:', APP)
@@ -42,7 +42,7 @@ elif action in ('code', 'test', 'run'):
             raise SystemExit('Configure the model first with python3 configure.py.')
         command = [str(PY), '-m', 'hr_agent.cli']
     # Explicitly prioritize this newly built copy over the installed reference.
-    env = os.environ.copy()
+    env = {**os.environ, 'PYTHONUTF8': '1'}
     env['PYTHONPATH'] = str(APP)
     print('Using LIVE code:', APP, flush=True)
     raise SystemExit(subprocess.call(command, cwd=APP, env=env))

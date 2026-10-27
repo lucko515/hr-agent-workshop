@@ -8,7 +8,7 @@ Use a coding assistant to build an application that answers policy questions, pr
 
 1. Clone this repository or use **Code → Download ZIP** and extract it.
 2. Open a terminal in the repository root (the folder containing `install.py`).
-3. Follow [SETUP.md](SETUP.md) to install dependencies and choose **one** execution route. You do not need every provider.
+3. Follow the OS-specific commands in [SETUP.md](SETUP.md) to install dependencies and choose **one** execution route. You do not need every provider.
 4. Run `python3 launch.py tests` to check the completed reference without calling a model.
 5. Follow the steps below. On Windows, use `py` in place of `python3`.
 
@@ -19,7 +19,7 @@ python3 install.py
 python3 launch.py tests
 ```
 
-Choose **3 (both)** during installation for the complete workshop environment and all offline checks. Options 1 and 2 install only the selected provider dependencies; unrelated provider tests may skip.
+The installer now defaults to all dependencies with no menu. For local/OpenAI-compatible access only, use `install.py --engine local`; for Claude only, use `install.py --engine claude`. Unrelated provider tests may skip. Run `doctor.py` after installation. On Windows use `py -3.12`; on macOS/Linux use a Python 3.10+ command as explained in SETUP.md.
 
 ## 1. Run the finished example, then inspect its code
 

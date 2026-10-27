@@ -21,7 +21,7 @@ if action != 'test':
     load_config(profile)
     if os.getenv('HR_AGENT_ENGINE') not in ('openai', 'claude'):
         raise SystemExit('Choose claude, api or local.')
-env = os.environ.copy()
+env = {**os.environ, 'PYTHONUTF8': '1'}
 env['PYTHONPATH'] = str(project)
 args = ['-m','pytest'] if action == 'test' else [str(ROOT/'verify_greenfield.py')] if action == 'verify' else ['main.py']
 print('Using greenfield code:', project, flush=True)

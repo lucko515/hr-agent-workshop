@@ -1,0 +1,28 @@
+name: Setup checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  setup:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fresh install
+        run: python install.py
+      - name: Local diagnostics
+        run: python doctor.py
+      - name: Setup regression checks
+        run: python -m unittest discover -s setup_tests -v
+      - name: Full agent
+        run: python launch.py tests
+      - name: Extension starter
+        run: python live_build.py test
+      - name: Completed small agent
+        run: python greenfield.py test local rehearsal

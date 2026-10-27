@@ -8,20 +8,11 @@ Your deliverable is a working extension that handles one new intent end to end, 
 - An approved API or local tool-capable model: run your extension through the HR application and inspect its tool calls and state.
 - Chat-only or no execution access: pair with an execution-enabled colleague. You can supply the specification and review results. If pairing is unavailable, do the design now and finish execution afterward. Mark the working-agent deliverable incomplete until an actual model run passes.
 
-## Before class: prepare your starter copy
+## Before class: prepare once
 
-Copy `starter/` into your own working directory. In that copy:
+Follow [SETUP.md](../SETUP.md) from the repository root. Use the included `live_build/agent/` working copy and the root `live_build.py` launcher. No activation or second environment is needed. Do not move the starter elsewhere for the standard workshop path: the coding prompts use the shared environment two folders above the project.
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e '.[dev]'
-python -m pytest
-```
-
-Windows activation: `.venv\Scripts\Activate.ps1`. The untouched starter has 22 passing offline tests. For API/local execution install `.[openai,dev]` instead; for Claude SDK use `.[claude,dev]`. Native Codex/Claude runtime use of the tools requires only Python; tests require pytest.
-
-Open `codex` or `claude` in THIS starter copy for development. Use a separate native session after implementation, as described below. Do not overwrite the supplied completed reference while doing the exercise.
+Run `python3 live_build.py test` from the repository root (Windows: `py -3.12 live_build.py test`). With all dependencies, the untouched starter has 22 passing tests. Then open `02_Brownfield.code-workspace` for development. Keep runtime sessions separate.
 
 ## Follow along during 09:43–10:05
 

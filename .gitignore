@@ -14,3 +14,15 @@ native/state.json
 evidence/*
 !evidence/README.md
 *.log
+# Backup virtual environments, editor histories and exported credentials
+.venv-*/
+venv/
+.env*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+.history/
