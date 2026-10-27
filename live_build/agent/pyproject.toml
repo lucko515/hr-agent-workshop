@@ -1,0 +1,21 @@
+[project]
+name = "hr-agent"
+version = "0.1.0"
+description = "Workshop HR agent: policy Q&A, leave requests, escalation. Session 6, Vibe Coding for IT Specialists."
+requires-python = ">=3.10"
+dependencies = []    # the tools, rules and evals need nothing; pick an engine below
+
+[project.optional-dependencies]
+claude = ["claude-agent-sdk==0.2.165", "anthropic>=2.3,<3"]
+openai = ["openai>=3.35,<4"]
+all = ["claude-agent-sdk==0.2.165", "anthropic>=2.3,<3", "openai>=3.35,<4"]
+dev = ["pytest>=8", "pytest-asyncio>=0.24"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = ["live: calls a real model (needs credentials, costs a few cents)"]
+addopts = "-m 'not live' -q"
+
+[tool.setuptools.packages.find]
+include = ["hr_agent*"]

@@ -1,0 +1,3 @@
+Read AGENTS.md, BRIEF.md and the supplied tests. We are building a minimal HR agent from this starter. Do not copy sibling projects or change the supplied tests.
+Run ../../.venv/bin/python -m pytest first and report the intended red failures. Then implement ONLY make_state, search_policies, request_leave, escalate_to_hr and dispatch in hr.py. Keep run_turn unimplemented for the next stage. Use the actual policy file, fixed employee identity and a Python confirmation callback. No new dependencies.
+Run ../../.venv/bin/python -m pytest tests/test_tools.py. Explain one test that protects a business boundary. Stop once the tools tests pass. Do not claim the model works yet.

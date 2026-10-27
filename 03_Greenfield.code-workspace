@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "path": "greenfield/live"
+    }
+  ],
+  "settings": {
+    "editor.fontSize": 20,
+    "terminal.integrated.fontSize": 19,
+    "files.exclude": {
+      "**/.env*": true,
+      "**/.runtime": true,
+      "**/.build": true,
+      "**/.venv": true
+    }
+  }
+}

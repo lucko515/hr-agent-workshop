@@ -1,0 +1,16 @@
+# Credentials and local environments
+.env
+.env.*
+!.env.example
+.venv/
+.runtime/
+.build/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+.DS_Store
+native/state.json
+evidence/*
+!evidence/README.md
+*.log

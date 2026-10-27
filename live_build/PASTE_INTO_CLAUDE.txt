@@ -1,0 +1,3 @@
+Read AGENTS.md, hr_agent/tools.py, hr_agent/agent.py, hr_agent/policy_search.py and policies/onboarding.md. We will extend this existing HR application with get_onboarding_checklist(stage).
+First run ../../.venv/bin/python -m pytest to establish the baseline. Then add tests/test_onboarding_workshop.py. Tests must check exact week-one tasks and policy metadata, invalid stage, unchanged HR records, and registration in the tool list and tier map. Stage values are before_day_one, week_one, first_month. No employee_id parameter.
+Do not implement the capability yet. Run the new tests so we see them fail because the capability is absent, not because of broken imports. Explain the files you intend to change and stop. Do not read sibling completed implementations or credentials.

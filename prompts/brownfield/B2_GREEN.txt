@@ -1,0 +1,3 @@
+Implement get_onboarding_checklist using the existing policy section loader. Return exact section text with title, section, version and effective date. Validate stage in Python as well as the schema. For an unknown stage or missing section, return a useful error and change no HR data.
+Register it as tier 1 and add a brief routing instruction to SYSTEM_PROMPT. Preserve existing tests and business rules. No new framework, dependency or employee_id input. Do not edit the tests to make the implementation pass.
+Run ../../.venv/bin/python -m pytest. Show files changed and test results. Then stop so I can review the code and run this exact project with a real model. Do not claim live success from offline tests.

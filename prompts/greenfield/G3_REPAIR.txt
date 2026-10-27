@@ -1,0 +1,4 @@
+Review the failure/output I paste below. Identify the smallest cause and fix only this project. Preserve all acceptance tests. If a behavior is missing, add a focused regression test before fixing it. Do not substitute canned answers, bypass confirmation, or copy another project. Run the offline suite and explain what still needs a real model check.
+
+OBSERVED OUTPUT:
+[paste the actual failure here]
